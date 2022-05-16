@@ -1,1 +1,1 @@
-## The Backend-part for our React assignment
+## The Backend-part for our React/socket.io assignment
