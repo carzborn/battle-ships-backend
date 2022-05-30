@@ -1,12 +1,12 @@
 {
-  "name": "12-clock-server",
+  "name": "battle-ships-backend",
   "version": "0.1.0",
   "private": true,
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "cross-env DEBUG=clock:* nodemon server.js",
-    "debug": "cross-env DEBUG=clock:*,socket.io:client,socket.io:server nodemon --inspect server.js"
+    "dev": "cross-env DEBUG=battleship:* nodemon server.js",
+    "debug": "cross-env DEBUG=battleship:*,socket.io:client,socket.io:server nodemon --inspect server.js"
   },
   "dependencies": {
     "@socket.io/admin-ui": "^0.2.0",

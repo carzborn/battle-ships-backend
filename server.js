@@ -6,7 +6,7 @@
 
 require('dotenv').config();
 
-const debug = require('debug')('clock:server');
+const debug = require('debug')('battleship:server');
 const http = require('http');
 const socketio = require('socket.io');
 const { instrument } = require("@socket.io/admin-ui");
