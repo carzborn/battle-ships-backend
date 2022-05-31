@@ -116,6 +116,12 @@
      // send list of rooms back to the client
      callback(room_list);
  }
+
+ const handleClickOnBoard = function (data) {
+	debug(`User ${this.id} pressed ${data}`)
+
+	this.broadcast.emit('user:click', data)
+ }
  
  /**
   * Export controller and attach handlers to events
@@ -133,9 +139,10 @@
     // handle user left
      socket.on('user:left', handleUserLeft);
 
- 
     // handle get room list request
      socket.on('get-room-list', handleGetRoomList);
+
+	 socket.on('user:click', handleClickOnBoard);
  
     // handle user joined
      socket.on('user:joined', handleUserJoined);
