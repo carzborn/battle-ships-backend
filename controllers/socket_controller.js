@@ -18,7 +18,7 @@
             id: this.id,
             username: username,
             myTurn: true,
-            room: "game"
+            room: 'game'
         }
 
         this.join(p1.room)
@@ -34,7 +34,7 @@
             id: this.id,
             username: username,
             myTurn: false,
-            room: "game"
+            room: 'game'
         }
         
         this.join(p2.room)
@@ -62,6 +62,11 @@
 
 	this.broadcast.emit('user:click', data)
  }
+
+const handleReply = function (data, boolean) {
+    debug(`reply at ${data} and its ${boolean}`);
+    this.broadcast.emit('user:recieved', data, boolean)
+ }
  
  /**
   * Export controller and attach handlers to events
@@ -76,7 +81,9 @@
      // handle user disconnect
      socket.on('disconnect', handleDisconnect);
  
-	 socket.on('user:click', handleClickOnBoard);
+	 socket.on('user:clicked', handleClickOnBoard);
+
+     socket.on('user:reply', handleReply);
  
     // handle user joined
      socket.on('user:joined', handleUserJoined);
