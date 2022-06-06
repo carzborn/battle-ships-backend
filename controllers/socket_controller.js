@@ -2,58 +2,57 @@
  * Socket Controller
  */
 
+const { emit } = require('nodemon');
+
  const debug = require('debug')('battleship:socket_controller');
  let io = null; // socket.io server instance
 
- const players = [];
+//  const players = [];
 
+
+ const room = {
+     id: 'game',
+     name: 'Game', 
+     players: [],
+ }
  /**
   * Handle a user joining a room
   *
   */
   const handleUserJoined =  function(username) {
     debug(`User ${username} with socket id ${this.id} wants to join room`);
-    if(players.length === 0) {
-        const p1 = {
+    
+    if(room.players.length < 2) {
+
+        const player  = {
             id: this.id,
             username: username,
-            myTurn: true,
-            room: 'game'
         }
 
-        this.join(p1.room)
-        players.push(p1);
+        this.join(room)
+        room.players.push(player);
 
-        debug("players before emitting new list", players)
+        debug("rad 35", room)
 
-        io.to(p1.room).emit("game:profiles", players);
+        io.to(room).emit("game:profiles", room.players);
     }
 
-   else if(players.length <= 1){
-        const p2 = {
-            id: this.id,
-            username: username,
-            myTurn: false,
-            room: 'game'
-        }
-        
-        this.join(p2.room)
-        players.push(p2)
-
-        debug("players before emitting new list", players)
-
-        io.to(p2.room).emit("game:profiles", players);
-    }
-
-    else{
+    else {
         this.emit('game:full')
 
         delete this.id
         return
     }
  }
+
+
  const handleDisconnect = function() {
+
     debug(`Client ${this.id} disconnected`);
+    
+    this.broadcast.to(room).emit('player:disconnected')
+    room.players = []
+
  }
  
 
