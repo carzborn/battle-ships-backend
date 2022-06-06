@@ -54,18 +54,17 @@ const { emit } = require('nodemon');
     room.players = []
 
  }
+
+ const handleClicks = function(data) {
+    debug(`User  ${this.id} fired at ${data}`)
+
+ }
  
 
- const handleClickOnBoard = function (data) {
-	debug(`User ${this.id} pressed ${data}`)
-
-	this.broadcast.emit('user:click', data)
- }
-
-const handleReply = function (data, boolean) {
-    debug(`reply at ${data} and its ${boolean}`);
-    this.broadcast.emit('user:recieved', data, boolean)
- }
+const handleShot = function (clicked, hit) {
+    debug(`reply at ${clicked} and its ${hit}`);
+    this.broadcast.to(room).emit('shot:result', clicked, hit)
+}
  
  /**
   * Export controller and attach handlers to events
@@ -80,10 +79,9 @@ const handleReply = function (data, boolean) {
      // handle user disconnect
      socket.on('disconnect', handleDisconnect);
  
-	 socket.on('user:clicked', handleClickOnBoard);
+	 socket.on('user:shot', handleShot);
 
-     socket.on('user:reply', handleReply);
- 
+    socket.on('user:clicked', handleClicks)
     // handle user joined
      socket.on('user:joined', handleUserJoined);
  }
