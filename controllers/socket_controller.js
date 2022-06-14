@@ -71,9 +71,9 @@ const { emit } = require('nodemon');
     }
  
 
-const handleShot = function (clicked, hit) {
-    debug(`reply at ${clicked} and its ${hit}`);
-    this.broadcast.to(room).emit('shot:result', clicked, hit)
+const handleReply = function (index, i, hit) {
+    debug(`${this.id} reply at ${index},${i} and its ${hit}`);
+    this.broadcast.to(room).emit('shot:result', index, i, hit)
 }
  
  /**
@@ -89,7 +89,7 @@ const handleShot = function (clicked, hit) {
      // handle user disconnect
      socket.on('disconnect', handleDisconnect);
  
-	 socket.on('user:shot', handleShot);
+	 socket.on('user:shot', handleReply);
 
     socket.on('user:clicked', onUserClick)
     // handle user joined
