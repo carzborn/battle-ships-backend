@@ -22,11 +22,21 @@ const { emit } = require('nodemon');
   const handleUserJoined =  function(username) {
     debug(`User ${username} with socket id ${this.id} wants to join room`);
     
+    let turn
+
+    if(room.players.length === 0){
+        turn = true
+    } else{
+        turn = false
+    }
+    
+    
     if(room.players.length < 2) {
 
         const player  = {
             id: this.id,
             username: username,
+            turn: turn
         }
 
         this.join(room)
@@ -55,10 +65,10 @@ const { emit } = require('nodemon');
 
  }
 
- const handleClicks = function(data) {
-    debug(`User  ${this.id} fired at ${data}`)
-
- }
+ const onUserClick = function(index,i) {
+    debug(`User ${this.id} fired at ${index}, ${i}`)
+    this.broadcast.to(room).emit('user:shot', index,i)
+    }
  
 
 const handleShot = function (clicked, hit) {
@@ -81,7 +91,7 @@ const handleShot = function (clicked, hit) {
  
 	 socket.on('user:shot', handleShot);
 
-    socket.on('user:clicked', handleClicks)
+    socket.on('user:clicked', onUserClick)
     // handle user joined
      socket.on('user:joined', handleUserJoined);
  }
