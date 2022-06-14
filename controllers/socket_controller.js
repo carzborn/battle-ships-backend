@@ -89,7 +89,7 @@ const handleReply = function (index, i, hit) {
      // handle user disconnect
      socket.on('disconnect', handleDisconnect);
  
-	 socket.on('user:shot', handleReply);
+	 socket.on('user:reply', handleReply);
 
     socket.on('user:clicked', onUserClick)
     // handle user joined
