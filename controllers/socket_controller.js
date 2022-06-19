@@ -75,6 +75,10 @@ const handleReply = function (index, i, hit) {
     debug(`${this.id} reply at ${index},${i} and its ${hit}`);
     this.broadcast.to(room).emit('shot:result', index, i, hit)
 }
+
+const handleShipSunk = function () {
+    this.broadcast.to(room).emit('ship:sunken')
+}
  
  /**
   * Export controller and attach handlers to events
@@ -82,14 +86,16 @@ const handleReply = function (index, i, hit) {
   */
  module.exports = function(socket, _io) {
      // save a reference to the socket.io server instance
-     io = _io;
+    io = _io;
  
-     debug(`Client ${socket.id} connected`)
+    debug(`Client ${socket.id} connected`)
  
      // handle user disconnect
-     socket.on('disconnect', handleDisconnect);
+    socket.on('disconnect', handleDisconnect);
  
-	 socket.on('user:reply', handleReply);
+	socket.on('user:reply', handleReply);
+
+    socket.on('ship:sunken', handleShipSunk)
 
     socket.on('user:clicked', onUserClick)
     // handle user joined
