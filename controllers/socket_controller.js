@@ -61,8 +61,8 @@ const { emit } = require('nodemon');
     debug(`Client ${this.id} disconnected`);
     
     this.broadcast.to(room).emit('player:disconnected')
+    
     room.players = []
-
  }
 
  const onUserClick = function(index,i) {
@@ -93,6 +93,8 @@ const handleShipSunk = function () {
      // handle user disconnect
     socket.on('disconnect', handleDisconnect);
  
+    socket.on('player:left', handleDisconnect)
+
 	socket.on('user:reply', handleReply);
 
     socket.on('ship:sunken', handleShipSunk)
