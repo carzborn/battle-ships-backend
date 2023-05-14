@@ -11,6 +11,9 @@ const http = require('http');
 const socketio = require('socket.io');
 const { instrument } = require("@socket.io/admin-ui");
 const socket_controller = require('./controllers/socket_controller');
+const cors = require('cors');
+
+app.use(cors());
 
 /**
  * Get port from environment.
@@ -25,7 +28,7 @@ const io = new socketio.Server(server, {
 	cors: {
 		origin: '*',
 		credentials: true,
-	}
+	},
 });
 
 /**
