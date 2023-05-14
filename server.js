@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const debug = require('debug')('battleship:server');
 const http = require('http');
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const { instrument } = require("@socket.io/admin-ui");
 const socket_controller = require('./controllers/socket_controller');
 const cors = require('cors');
@@ -20,7 +20,7 @@ const server = http.createServer();
 // Apply CORS middleware
 server.on('request', cors());
 
-const io = new socketio.Server(server, {
+const io = new Server(server, {
   cors: {
     origin: '*',
     credentials: true,
